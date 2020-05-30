@@ -20,3 +20,17 @@ email varchar(100) NOT NULL,
 PRIMARY KEY (id)
 );
 ```
+
+# Steps to deploy
+
+1. Make sure k8s cluster is running and kubectl is pointed to the cluster
+1. Run above sql commands to create test DB
+1. Update `config.js.sample` with the actual values and save it as `config.js`
+1. Create a configmap `nodejs-mysql-crud-map` with file `config.js`
+1. Create a tls secret `tls-secret` for the hosts. You an use a self signed cert
+1. Run the following to deploy the app
+```shell
+kubectl apply -f deployment.yaml
+```
+1. Access the app via https://raylim.ch
+

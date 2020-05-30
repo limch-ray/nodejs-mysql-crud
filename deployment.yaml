@@ -1,0 +1,62 @@
+---
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: nodejs-mysql-crud
+spec:
+  selector:
+    matchLabels:
+      app: nodejs-mysql-crud
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: nodejs-mysql-crud
+    spec:
+      containers:
+      - name: nodejs-mysql-crud
+        image: raylim/nodejs-mysql-crud:092faa6
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - name: config-volume
+          mountPath: /usr/src/app/config.js
+      volumes:
+        - name: config-volume
+          configMap:
+            name: nodejs-mysql-crud-map
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodejs-mysql-crud
+spec:
+  type: LoadBalancer
+  selector:
+    app: nodejs-mysql-crud
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nodejs-mysql-crud
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+  - hosts:
+    - raylim.ch
+    secretName: tls-secret
+  rules:
+  - host: raylim.ch
+    http:
+      paths:
+        - path: /
+          backend:
+            serviceName: nodejs-mysql-crud
+            servicePort: 3000
