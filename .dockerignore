@@ -1,3 +1,2 @@
-config-prod.js
-config.js.orig
+config.js.sample
 deployment.yaml
