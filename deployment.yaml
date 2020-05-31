@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       app: nodejs-mysql-crud
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       labels:
@@ -15,12 +15,13 @@ spec:
     spec:
       containers:
       - name: nodejs-mysql-crud
-        image: raylim/nodejs-mysql-crud:092faa6
+        image: raylim/nodejs-mysql-crud:be2e07e
         ports:
         - containerPort: 3000
         volumeMounts:
         - name: config-volume
           mountPath: /usr/src/app/config.js
+          subPath: config.js
       volumes:
         - name: config-volume
           configMap:
