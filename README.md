@@ -32,5 +32,7 @@ PRIMARY KEY (id)
 ```shell
 kubectl apply -f deployment.yaml
 ```
+
+# Steps to access site
 1. Access the app via https://HOST
 
