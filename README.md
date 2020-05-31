@@ -32,5 +32,5 @@ PRIMARY KEY (id)
 ```shell
 kubectl apply -f deployment.yaml
 ```
-1. Access the app via https://raylim.ch
+1. Access the app via https://HOST
 
